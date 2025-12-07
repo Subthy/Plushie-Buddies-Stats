@@ -1,8 +1,11 @@
-name: Update Plushie Buddies download count
+name: Update Team BaerCraft download counts
+
+permissions:
+  contents: write
 
 on:
   schedule:
-    # Every hour at minute 5 — tweak if you like
+    # Every hour at minute 5 — adjust if you like
     - cron: "5 * * * *"
   workflow_dispatch: {}
 
@@ -19,83 +22,218 @@ jobs:
         with:
           node-version: 20
 
-      - name: Fetch download count from Shields.io
+      - name: Fetch download counts from Shields.io
         run: |
           node << 'EOF'
           const https = require('https');
           const fs = require('fs');
 
-          const url = 'https://img.shields.io/curseforge/dt/990265.json';
+          // Your projects
+          const PROJECTS = [
+            {
+              id: 990265,
+              slug: 'plushie-buddies',
+              name: 'Plushie Buddies',
+              type: 'Mod',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/mc-mods/plushie-buddies'
+            },
+            {
+              id: 586179,
+              slug: 'trash-panda-craft',
+              name: 'Trash Panda Craft',
+              type: 'Modpack',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/modpacks/trash-panda-craft'
+            },
+            {
+              id: 1250043,
+              slug: 'rpg-bosses',
+              name: 'RPG Bosses',
+              type: 'Mod',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/mc-mods/rpg-bosses'
+            },
+            {
+              id: 1038674,
+              slug: 'cultivators-edge',
+              name: "Cultivator's Edge",
+              type: 'Mod',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/mc-mods/cultivators-edge'
+            },
+            {
+              id: 872923,
+              slug: 'pokeasub',
+              name: 'PokeASub',
+              type: 'Modpack',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/modpacks/pokeasub'
+            },
+            {
+              id: 1022947,
+              slug: 'hammer-havoc',
+              name: 'Hammer Havoc',
+              type: 'Mod',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/mc-mods/hammer-havoc'
+            },
+            {
+              id: 458165,
+              slug: 'baercraft',
+              name: 'BaerCraft',
+              type: 'Modpack',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/modpacks/baercraft'
+            },
+            {
+              id: 462963,
+              slug: 'baers-additions',
+              name: "Baer's Additions",
+              type: 'Mod',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/mc-mods/baers-additions'
+            },
+            {
+              id: 643632,
+              slug: 'baers-renditions',
+              name: "Baer's Renditions",
+              type: 'Resource Pack',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/texture-packs/baers-renditions'
+            },
+            {
+              id: 925715,
+              slug: 'create-reclaimed-rocks',
+              name: 'Create: Reclaimed Rocks',
+              type: 'Mod',
+              curseforgeUrl: 'https://www.curseforge.com/minecraft/mc-mods/create-reclaimed-rocks'
+            }
+          ];
 
-          https.get(url, res => {
-            let body = '';
-            res.on('data', chunk => (body += chunk));
-            res.on('end', () => {
-              if (res.statusCode !== 200) {
-                console.error('Shields.io returned', res.statusCode, body);
-                process.exit(1);
-              }
+          const MAX_HISTORY = 500;
 
-              let json;
-              try {
-                json = JSON.parse(body);
-              } catch (e) {
-                console.error('Failed to parse JSON:', e);
-                console.error(body);
-                process.exit(1);
-              }
+          function fetchBadge(projectId) {
+            const url = `https://img.shields.io/curseforge/dt/${projectId}.json`;
 
-              const message = json && json.message;
-              if (typeof message !== 'string') {
-                console.error('No "message" field found in Shields.io response:', json);
-                process.exit(1);
-              }
-
-              // Try to turn the message ("12.3k", "1234", etc.) into a number
-              function parseDownloadMessage(msg) {
-                const trimmed = msg.trim().toLowerCase();
-                const match = trimmed.match(/^([\d.,]+)\s*([kmb])?$/i);
-                if (!match) {
-                  const numeric = parseInt(trimmed.replace(/[^0-9]/g, ''), 10);
-                  return Number.isFinite(numeric) ? numeric : null;
-                }
-                let num = parseFloat(match[1].replace(',', ''));
-                if (!Number.isFinite(num)) return null;
-                const suffix = match[2];
-                if (suffix === 'k') num *= 1_000;
-                else if (suffix === 'm') num *= 1_000_000;
-                else if (suffix === 'b') num *= 1_000_000_000;
-                return Math.round(num);
-              }
-
-              const approx = parseDownloadMessage(message);
-              const now = new Date().toISOString();
-
-              let existing = [];
-              try {
-                const raw = fs.readFileSync('download-data.json', 'utf8');
-                const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed)) existing = parsed;
-              } catch (_e) {
-                // file may not exist yet, that's fine
-              }
-
-              existing.push({
-                timestamp: now,
-                downloadDisplay: message,  // e.g. "12.3k"
-                downloadApprox: approx     // e.g. 12300 (approximate)
-              });
-
-              fs.writeFileSync(
-                'download-data.json',
-                JSON.stringify(existing, null, 2),
-                'utf8'
-              );
-
-              console.log('Recorded downloads', message, 'approx', approx, 'at', now);
+            return new Promise((resolve, reject) => {
+              https
+                .get(url, (res) => {
+                  let body = '';
+                  res.on('data', (chunk) => (body += chunk));
+                  res.on('end', () => {
+                    if (res.statusCode !== 200) {
+                      return reject(
+                        new Error(`Shields.io for ${projectId} returned ${res.statusCode}: ${body}`)
+                      );
+                    }
+                    try {
+                      const json = JSON.parse(body);
+                      resolve(json);
+                    } catch (e) {
+                      reject(new Error(`Failed to parse JSON for ${projectId}: ${e.message}`));
+                    }
+                  });
+                })
+                .on('error', (err) => {
+                  reject(err);
+                });
             });
-          }).on('error', err => {
-            console.error('HTTPS error:', err);
+          }
+
+          function parseDownloadMessage(msg) {
+            if (typeof msg !== 'string') return null;
+            const trimmed = msg.trim().toLowerCase();
+
+            // Try patterns like "12.3k", "1.2M", "1234"
+            const match = trimmed.match(/^([\d.,]+)\s*([kmb])?$/i);
+            if (!match) {
+              const numeric = parseInt(trimmed.replace(/[^0-9]/g, ''), 10);
+              return Number.isFinite(numeric) ? numeric : null;
+            }
+
+            let num = parseFloat(match[1].replace(',', ''));
+            if (!Number.isFinite(num)) return null;
+            const suffix = match[2];
+            if (suffix === 'k') num *= 1_000;
+            else if (suffix === 'm') num *= 1_000_000;
+            else if (suffix === 'b') num *= 1_000_000_000;
+            return Math.round(num);
+          }
+
+          // Load existing data
+          let existing = { lastUpdated: null, projects: [] };
+          try {
+            const raw = fs.readFileSync('download-data.json', 'utf8');
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+              existing = parsed;
+              if (!Array.isArray(existing.projects)) {
+                existing.projects = [];
+              }
+            }
+          } catch (_e) {
+            // file may not exist yet, that's fine
+          }
+
+          const existingById = new Map();
+          for (const p of existing.projects) {
+            if (p && typeof p.id === 'number') {
+              existingById.set(p.id, p);
+              if (!Array.isArray(p.history)) p.history = [];
+            }
+          }
+
+          const now = new Date().toISOString();
+
+          (async () => {
+            const updatedProjects = [];
+
+            for (const proj of PROJECTS) {
+              console.log(`Fetching badge for ${proj.name} (${proj.id})`);
+              const badge = await fetchBadge(proj.id);
+              const message = badge && badge.message;
+              const approx = parseDownloadMessage(message);
+
+              const entry = {
+                timestamp: now,
+                downloadDisplay: message,
+                downloadApprox: approx
+              };
+
+              const existingProj =
+                existingById.get(proj.id) || {
+                  id: proj.id,
+                  slug: proj.slug,
+                  name: proj.name,
+                  type: proj.type,
+                  curseforgeUrl: proj.curseforgeUrl,
+                  history: []
+                };
+
+              existingProj.slug = proj.slug;
+              existingProj.name = proj.name;
+              existingProj.type = proj.type;
+              existingProj.curseforgeUrl = proj.curseforgeUrl;
+
+              existingProj.history.push(entry);
+              if (existingProj.history.length > MAX_HISTORY) {
+                existingProj.history = existingProj.history.slice(
+                  existingProj.history.length - MAX_HISTORY
+                );
+              }
+
+              updatedProjects.push(existingProj);
+              console.log(
+                `Recorded ${proj.name}: ${message} (approx ${approx}) at ${now}`
+              );
+            }
+
+            const finalData = {
+              lastUpdated: now,
+              projects: updatedProjects
+            };
+
+            fs.writeFileSync(
+              'download-data.json',
+              JSON.stringify(finalData, null, 2),
+              'utf8'
+            );
+
+            console.log('Updated download-data.json');
+          })().catch((err) => {
+            console.error('Error updating download data:', err);
             process.exit(1);
           });
           EOF
@@ -106,8 +244,8 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add download-data.json
-            git commit -m "Update download count (Shields)"
+            git commit -m "Update download counts (multi-project)"
             git push
           else
-            echo "No changes to commit."
+            echo "No changes to commit.";
           fi

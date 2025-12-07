@@ -2,63 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Plushie Buddies – Download Tracker</title>
+  <title>Team BaerCraft – Mods & Modpacks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="page">
-    <header class="header">
-      <h1>Plushie Buddies – Download Tracker</h1>
-      <p class="subtitle">
-        Live-ish stats pulled from the CurseForge API via GitHub Actions.
-      </p>
-      <a
-        href="https://www.curseforge.com/minecraft/mc-mods/plushie-buddies"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="cf-link"
-      >
-        View Plushie Buddies on CurseForge
-      </a>
-    </header>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mark">🐻</span>
+        <span class="logo-text">Team BaerCraft</span>
+      </div>
+      <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <section class="card">
-      <h2>Current Downloads</h2>
-      <div id="current-count" class="big-number">Loading…</div>
-      <div id="last-updated" class="meta-text"></div>
-    </section>
-
-    <section class="card">
-      <h2>History</h2>
-      <p class="meta-text">
-        Each row is one run of the GitHub Action (e.g. hourly).
-      </p>
-      <div class="table-wrapper">
-        <table id="history-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Timestamp (local)</th>
-              <th>Downloads</th>
-              <th>Change</th>
-            </tr>
-          </thead>
-          <tbody id="history-body">
-            <tr>
-              <td colspan="4" style="text-align:center;">Loading…</td>
-            </tr>
-          </tbody>
-        </table>
+  <main>
+    <!-- HOME / HERO -->
+    <section id="home" class="section section-hero">
+      <div class="section-inner hero-grid">
+        <div>
+          <h1>Welcome to Team BaerCraft</h1>
+          <p class="lead">
+            We build cozy chaos: Minecraft mods, modpacks, and resource packs
+            that mix creativity, challenge, and a whole lot of personality.
+          </p>
+          <p class="muted">
+            This site pulls live download counts for our projects directly from
+            CurseForge (via Shields.io) using GitHub Actions.
+          </p>
+          <a
+            href="#projects"
+            class="primary-btn"
+          >
+            View Projects
+          </a>
+        </div>
+        <div class="hero-callout">
+          <h2>Live Stats Snapshot</h2>
+          <p id="global-last-updated" class="muted">
+            Loading last updated time…
+          </p>
+          <p class="muted small">
+            Updated automatically by GitHub Actions on a schedule.
+          </p>
+        </div>
       </div>
     </section>
 
-    <footer class="footer">
-      <p>
-        Data source: CurseForge API (mod ID 990265), cached via GitHub Actions.
-      </p>
-    </footer>
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="section-inner">
+        <h2>Projects</h2>
+        <p class="muted">
+          Mods, modpacks, and resource packs maintained by Team BaerCraft.
+          Download counts are approximate and pulled from CurseForge badges.
+        </p>
+
+        <div id="projects-grid" class="projects-grid">
+          <!-- Cards injected by script.js -->
+          <div class="project-card placeholder">
+            <h3>Loading projects…</h3>
+            <p class="muted">If this message stays, check that download-data.json is present.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section-alt">
+      <div class="section-inner">
+        <h2>About Us</h2>
+        <p>
+          Team BaerCraft is a small, nerdy crew focused on crafting high-quality
+          Minecraft experiences—ranging from plushie-filled comfort mods to
+          full modpacks and resource packs.
+        </p>
+        <p>
+          We care about performance, clarity, and thoughtful design. Many of
+          our projects are built to be approachable for players, but deep enough
+          for veterans to sink their teeth into.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="section-inner">
+        <h2>Contact</h2>
+        <p class="muted">
+          Replace this text with your real contact details (Discord, email,
+          website, etc.).
+        </p>
+        <ul class="contact-list">
+          <li>
+            <strong>CurseForge:</strong>
+            <a href="https://www.curseforge.com/members" target="_blank" rel="noopener noreferrer">
+              Your CurseForge profile
+            </a>
+          </li>
+          <li>
+            <strong>Discord:</strong> Add your server or tag here
+          </li>
+          <li>
+            <strong>GitHub:</strong> Add a link to this site’s repository if you’d like
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© <span id="current-year"></span> Team BaerCraft.</span>
+      <span class="footer-note">
+        Not affiliated with Mojang or Microsoft.
+      </span>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>

@@ -1,88 +1,111 @@
-function getNumeric(entry) {
-  if (typeof entry.downloadCount === "number") return entry.downloadCount;
-  if (typeof entry.downloadApprox === "number") return entry.downloadApprox;
-  return null;
+function setCurrentYear() {
+  const yearEl = document.getElementById("current-year");
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
 }
 
-function getDisplay(entry) {
-  if (typeof entry.downloadDisplay === "string") return entry.downloadDisplay;
-  const num = getNumeric(entry);
-  if (num != null) return num.toLocaleString();
+function formatDisplay(entry) {
+  if (!entry) return "N/A";
+
+  if (typeof entry.downloadDisplay === "string") {
+    return entry.downloadDisplay;
+  }
+  if (typeof entry.downloadApprox === "number") {
+    return entry.downloadApprox.toLocaleString();
+  }
   return "N/A";
 }
 
-async function loadData() {
-  const currentEl = document.getElementById("current-count");
-  const updatedEl = document.getElementById("last-updated");
-  const historyBody = document.getElementById("history-body");
+function getDelta(latest, prev) {
+  if (!latest || !prev) return null;
+  if (
+    typeof latest.downloadApprox !== "number" ||
+    typeof prev.downloadApprox !== "number"
+  ) {
+    return null;
+  }
+  return latest.downloadApprox - prev.downloadApprox;
+}
+
+async function loadProjects() {
+  const grid = document.getElementById("projects-grid");
+  const globalUpdatedEl = document.getElementById("global-last-updated");
 
   try {
-    const res = await fetch("download-data.json", {
-      cache: "no-cache",
-    });
-
+    const res = await fetch("download-data.json", { cache: "no-cache" });
     if (!res.ok) {
       throw new Error("Failed to load download-data.json");
     }
 
     const data = await res.json();
 
-    if (!Array.isArray(data) || data.length === 0) {
-      currentEl.textContent = "No data yet";
-      updatedEl.textContent =
-        "Waiting for the first GitHub Action run to populate data.";
-      historyBody.innerHTML =
-        '<tr><td colspan="4" style="text-align:center;">No entries yet</td></tr>';
+    const projects = Array.isArray(data.projects) ? data.projects : [];
+    if (!projects.length) {
+      grid.innerHTML =
+        '<div class="project-card"><h3>No projects yet</h3><p class="muted">Waiting for the GitHub Action to populate data.</p></div>';
+      if (globalUpdatedEl) {
+        globalUpdatedEl.textContent =
+          "No data yet. Check that the workflow has run successfully.";
+      }
       return;
     }
 
-    // Sort by timestamp just in case
-    data.sort(
-      (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-    );
+    // Optional: sort by name
+    projects.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
-    const latest = data[data.length - 1];
-    currentEl.textContent = getDisplay(latest);
+    const cards = projects.map((proj) => {
+      const history = Array.isArray(proj.history) ? proj.history : [];
+      const latest = history.length ? history[history.length - 1] : null;
+      const prev = history.length > 1 ? history[history.length - 2] : null;
 
-    const lastUpdated = new Date(latest.timestamp);
-    updatedEl.textContent = `Last updated: ${lastUpdated.toLocaleString()}`;
+      const display = formatDisplay(latest);
+      const delta = getDelta(latest, prev);
 
-    const rows = [];
-    for (let i = data.length - 1; i >= 0; i--) {
-      const entry = data[i];
-      const prev = i > 0 ? data[i - 1] : null;
+      const deltaText =
+        delta === null || delta === 0
+          ? "No change since last check"
+          : `${delta > 0 ? "+" : ""}${delta.toLocaleString()} since last check`;
 
-      const currentNum = getNumeric(entry);
-      const prevNum = prev ? getNumeric(prev) : null;
-      const delta =
-        currentNum != null && prevNum != null ? currentNum - prevNum : null;
+      const type = proj.type || "Project";
 
-      const localTime = new Date(entry.timestamp).toLocaleString();
-      const display = getDisplay(entry);
+      const url = proj.curseforgeUrl || "#";
 
-      rows.push(`
-        <tr>
-          <td>${data.length - i}</td>
-          <td>${localTime}</td>
-          <td>${display}</td>
-          <td>${
-            delta != null && delta !== 0
-              ? (delta > 0 ? "+" : "") + delta.toLocaleString()
-              : "—"
-          }</td>
-        </tr>
-      `);
+      return `
+        <article class="project-card">
+          <div class="project-type">${type}</div>
+          <h3>${proj.name || "Unnamed project"}</h3>
+          <div class="project-count">${display}</div>
+          <div class="project-delta">${deltaText}</div>
+          <div class="project-links">
+            <a href="${url}" target="_blank" rel="noopener noreferrer">
+              View on CurseForge
+            </a>
+          </div>
+        </article>
+      `;
+    });
+
+    grid.innerHTML = cards.join("");
+
+    if (globalUpdatedEl) {
+      const last = data.lastUpdated
+        ? new Date(data.lastUpdated)
+        : new Date();
+      globalUpdatedEl.textContent = `Last updated: ${last.toLocaleString()}`;
     }
-
-    historyBody.innerHTML = rows.join("");
   } catch (err) {
     console.error(err);
-    currentEl.textContent = "Error";
-    updatedEl.textContent =
-      "Could not load data. Check the browser console for details.";
-    historyBody.innerHTML =
-      '<tr><td colspan="4" style="text-align:center;">Error loading data</td></tr>';
+    if (grid) {
+      grid.innerHTML =
+        '<div class="project-card"><h3>Error loading data</h3><p class="muted">Check the browser console and the GitHub Actions logs.</p></div>';
+    }
+    if (globalUpdatedEl) {
+      globalUpdatedEl.textContent =
+        "Error loading data. See console / workflow logs.";
+    }
   }
 }
 
-loadData();
+setCurrentYear();
+loadProjects();
