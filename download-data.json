@@ -1,17 +1,145 @@
-[
-  {
-    "timestamp": "2025-12-07T20:13:21.354Z",
-    "downloadDisplay": "3M",
-    "downloadApprox": 3000000
-  },
-  {
-    "timestamp": "2025-12-07T20:28:25.977Z",
-    "downloadDisplay": "3M",
-    "downloadApprox": 3000000
-  },
-  {
-    "timestamp": "2025-12-07T21:21:55.170Z",
-    "downloadDisplay": "3M",
-    "downloadApprox": 3000000
-  }
-]
+{
+  "lastUpdated": "2025-12-07T22:06:53.139Z",
+  "projects": [
+    {
+      "id": 990265,
+      "slug": "plushie-buddies",
+      "name": "Plushie Buddies",
+      "type": "Mod",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/plushie-buddies",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "3M",
+          "downloadApprox": 3000000
+        }
+      ]
+    },
+    {
+      "id": 586179,
+      "slug": "trash-panda-craft",
+      "name": "Trash Panda Craft",
+      "type": "Modpack",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/modpacks/trash-panda-craft",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "4k",
+          "downloadApprox": 4000
+        }
+      ]
+    },
+    {
+      "id": 1250043,
+      "slug": "rpg-bosses",
+      "name": "RPG Bosses",
+      "type": "Mod",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/rpg-bosses",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "1.9k",
+          "downloadApprox": 1900
+        }
+      ]
+    },
+    {
+      "id": 1038674,
+      "slug": "cultivators-edge",
+      "name": "Cultivator's Edge",
+      "type": "Mod",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/cultivators-edge",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "456",
+          "downloadApprox": 456
+        }
+      ]
+    },
+    {
+      "id": 872923,
+      "slug": "pokeasub",
+      "name": "PokeASub",
+      "type": "Modpack",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/modpacks/pokeasub",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "2k",
+          "downloadApprox": 2000
+        }
+      ]
+    },
+    {
+      "id": 1022947,
+      "slug": "hammer-havoc",
+      "name": "Hammer Havoc",
+      "type": "Mod",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/hammer-havoc",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "1.6k",
+          "downloadApprox": 1600
+        }
+      ]
+    },
+    {
+      "id": 458165,
+      "slug": "baercraft",
+      "name": "BaerCraft",
+      "type": "Modpack",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/modpacks/baercraft",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "16k",
+          "downloadApprox": 16000
+        }
+      ]
+    },
+    {
+      "id": 462963,
+      "slug": "baers-additions",
+      "name": "Baer's Additions",
+      "type": "Mod",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/baers-additions",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "10k",
+          "downloadApprox": 10000
+        }
+      ]
+    },
+    {
+      "id": 643632,
+      "slug": "baers-renditions",
+      "name": "Baer's Renditions",
+      "type": "Resource Pack",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/texture-packs/baers-renditions",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "6.4k",
+          "downloadApprox": 6400
+        }
+      ]
+    },
+    {
+      "id": 925715,
+      "slug": "create-reclaimed-rocks",
+      "name": "Create: Reclaimed Rocks",
+      "type": "Mod",
+      "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/create-reclaimed-rocks",
+      "history": [
+        {
+          "timestamp": "2025-12-07T22:06:53.139Z",
+          "downloadDisplay": "72k",
+          "downloadApprox": 72000
+        }
+      ]
+    }
+  ]
+}
