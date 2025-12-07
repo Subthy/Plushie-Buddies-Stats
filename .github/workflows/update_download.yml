@@ -19,36 +19,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Fetch download count from CurseForge
-        env:
-          CF_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+      - name: Fetch download count from Shields.io
         run: |
           node << 'EOF'
           const https = require('https');
           const fs = require('fs');
 
-          const apiKey = process.env.CF_API_KEY;
-          if (!apiKey) {
-            console.error('CF_API_KEY secret is not set.');
-            process.exit(1);
-          }
+          const url = 'https://img.shields.io/curseforge/dt/990265.json';
 
-          const modId = 990265; // Plushie Buddies project ID
-          const url = `https://api.curseforge.com/v1/mods/${modId}`;
-
-          const options = {
-            headers: {
-              'Accept': 'application/json',
-              'x-api-key': apiKey
-            }
-          };
-
-          https.get(url, options, res => {
+          https.get(url, res => {
             let body = '';
             res.on('data', chunk => (body += chunk));
             res.on('end', () => {
               if (res.statusCode !== 200) {
-                console.error('CurseForge API returned', res.statusCode, body);
+                console.error('Shields.io returned', res.statusCode, body);
                 process.exit(1);
               }
 
@@ -61,12 +45,30 @@ jobs:
                 process.exit(1);
               }
 
-              const count = json?.data?.downloadCount;
-              if (typeof count !== 'number') {
-                console.error('No valid downloadCount in response:', json);
+              const message = json && json.message;
+              if (typeof message !== 'string') {
+                console.error('No "message" field found in Shields.io response:', json);
                 process.exit(1);
               }
 
+              // Try to turn the message ("12.3k", "1234", etc.) into a number
+              function parseDownloadMessage(msg) {
+                const trimmed = msg.trim().toLowerCase();
+                const match = trimmed.match(/^([\d.,]+)\s*([kmb])?$/i);
+                if (!match) {
+                  const numeric = parseInt(trimmed.replace(/[^0-9]/g, ''), 10);
+                  return Number.isFinite(numeric) ? numeric : null;
+                }
+                let num = parseFloat(match[1].replace(',', ''));
+                if (!Number.isFinite(num)) return null;
+                const suffix = match[2];
+                if (suffix === 'k') num *= 1_000;
+                else if (suffix === 'm') num *= 1_000_000;
+                else if (suffix === 'b') num *= 1_000_000_000;
+                return Math.round(num);
+              }
+
+              const approx = parseDownloadMessage(message);
               const now = new Date().toISOString();
 
               let existing = [];
@@ -80,7 +82,8 @@ jobs:
 
               existing.push({
                 timestamp: now,
-                downloadCount: count
+                downloadDisplay: message,  // e.g. "12.3k"
+                downloadApprox: approx     // e.g. 12300 (approximate)
               });
 
               fs.writeFileSync(
@@ -89,7 +92,7 @@ jobs:
                 'utf8'
               );
 
-              console.log('Recorded downloadCount', count, 'at', now);
+              console.log('Recorded downloads', message, 'approx', approx, 'at', now);
             });
           }).on('error', err => {
             console.error('HTTPS error:', err);
@@ -103,7 +106,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add download-data.json
-            git commit -m "Update download count"
+            git commit -m "Update download count (Shields)"
             git push
           else
             echo "No changes to commit."

@@ -1,3 +1,16 @@
+function getNumeric(entry) {
+  if (typeof entry.downloadCount === "number") return entry.downloadCount;
+  if (typeof entry.downloadApprox === "number") return entry.downloadApprox;
+  return null;
+}
+
+function getDisplay(entry) {
+  if (typeof entry.downloadDisplay === "string") return entry.downloadDisplay;
+  const num = getNumeric(entry);
+  if (num != null) return num.toLocaleString();
+  return "N/A";
+}
+
 async function loadData() {
   const currentEl = document.getElementById("current-count");
   const updatedEl = document.getElementById("last-updated");
@@ -29,29 +42,34 @@ async function loadData() {
     );
 
     const latest = data[data.length - 1];
-    currentEl.textContent = latest.downloadCount.toLocaleString();
+    currentEl.textContent = getDisplay(latest);
 
     const lastUpdated = new Date(latest.timestamp);
     updatedEl.textContent = `Last updated: ${lastUpdated.toLocaleString()}`;
 
-    // Build history rows (newest first)
     const rows = [];
     for (let i = data.length - 1; i >= 0; i--) {
       const entry = data[i];
       const prev = i > 0 ? data[i - 1] : null;
+
+      const currentNum = getNumeric(entry);
+      const prevNum = prev ? getNumeric(prev) : null;
       const delta =
-        prev && typeof prev.downloadCount === "number"
-          ? entry.downloadCount - prev.downloadCount
-          : 0;
+        currentNum != null && prevNum != null ? currentNum - prevNum : null;
 
       const localTime = new Date(entry.timestamp).toLocaleString();
+      const display = getDisplay(entry);
 
       rows.push(`
         <tr>
           <td>${data.length - i}</td>
           <td>${localTime}</td>
-          <td>${entry.downloadCount.toLocaleString()}</td>
-          <td>${delta > 0 ? "+" + delta.toLocaleString() : "—"}</td>
+          <td>${display}</td>
+          <td>${
+            delta != null && delta !== 0
+              ? (delta > 0 ? "+" : "") + delta.toLocaleString()
+              : "—"
+          }</td>
         </tr>
       `);
     }
