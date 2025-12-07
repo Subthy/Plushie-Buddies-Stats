@@ -24,6 +24,7 @@ jobs:
 
       - name: Fetch download counts and logos
         run: |
+          node << 'EOF'
           const https = require('https');
           const fs = require('fs');
 
@@ -274,6 +275,7 @@ jobs:
             console.error('Error updating download data:', err);
             process.exit(1);
           });
+          EOF
 
       - name: Commit and push changes (if any)
         run: |
