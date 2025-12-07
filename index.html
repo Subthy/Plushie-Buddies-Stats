@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Plushie Buddies – Download Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <h1>Plushie Buddies – Download Tracker</h1>
+      <p class="subtitle">
+        Live-ish stats pulled from the CurseForge API via GitHub Actions.
+      </p>
+      <a
+        href="https://www.curseforge.com/minecraft/mc-mods/plushie-buddies"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="cf-link"
+      >
+        View Plushie Buddies on CurseForge
+      </a>
+    </header>
+
+    <section class="card">
+      <h2>Current Downloads</h2>
+      <div id="current-count" class="big-number">Loading…</div>
+      <div id="last-updated" class="meta-text"></div>
+    </section>
+
+    <section class="card">
+      <h2>History</h2>
+      <p class="meta-text">
+        Each row is one run of the GitHub Action (e.g. hourly).
+      </p>
+      <div class="table-wrapper">
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Timestamp (local)</th>
+              <th>Downloads</th>
+              <th>Change</th>
+            </tr>
+          </thead>
+          <tbody id="history-body">
+            <tr>
+              <td colspan="4" style="text-align:center;">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Data source: CurseForge API (mod ID 990265), cached via GitHub Actions.
+      </p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

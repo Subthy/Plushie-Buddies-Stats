@@ -1,0 +1,110 @@
+name: Update Plushie Buddies download count
+
+on:
+  schedule:
+    # Every hour at minute 5 — tweak if you like
+    - cron: "5 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  update-downloads:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch download count from CurseForge
+        env:
+          CF_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+        run: |
+          node << 'EOF'
+          const https = require('https');
+          const fs = require('fs');
+
+          const apiKey = process.env.CF_API_KEY;
+          if (!apiKey) {
+            console.error('CF_API_KEY secret is not set.');
+            process.exit(1);
+          }
+
+          const modId = 990265; // Plushie Buddies project ID
+          const url = `https://api.curseforge.com/v1/mods/${modId}`;
+
+          const options = {
+            headers: {
+              'Accept': 'application/json',
+              'x-api-key': apiKey
+            }
+          };
+
+          https.get(url, options, res => {
+            let body = '';
+            res.on('data', chunk => (body += chunk));
+            res.on('end', () => {
+              if (res.statusCode !== 200) {
+                console.error('CurseForge API returned', res.statusCode, body);
+                process.exit(1);
+              }
+
+              let json;
+              try {
+                json = JSON.parse(body);
+              } catch (e) {
+                console.error('Failed to parse JSON:', e);
+                console.error(body);
+                process.exit(1);
+              }
+
+              const count = json?.data?.downloadCount;
+              if (typeof count !== 'number') {
+                console.error('No valid downloadCount in response:', json);
+                process.exit(1);
+              }
+
+              const now = new Date().toISOString();
+
+              let existing = [];
+              try {
+                const raw = fs.readFileSync('download-data.json', 'utf8');
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) existing = parsed;
+              } catch (_e) {
+                // file may not exist yet, that's fine
+              }
+
+              existing.push({
+                timestamp: now,
+                downloadCount: count
+              });
+
+              fs.writeFileSync(
+                'download-data.json',
+                JSON.stringify(existing, null, 2),
+                'utf8'
+              );
+
+              console.log('Recorded downloadCount', count, 'at', now);
+            });
+          }).on('error', err => {
+            console.error('HTTPS error:', err);
+            process.exit(1);
+          });
+          EOF
+
+      - name: Commit and push changes (if any)
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add download-data.json
+            git commit -m "Update download count"
+            git push
+          else
+            echo "No changes to commit."
+          fi
