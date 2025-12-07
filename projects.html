@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Team BaerCraft – Home</title>
+  <title>Team BaerCraft – Projects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -23,30 +23,25 @@
   </header>
 
   <main>
-    <section id="home" class="section section-hero">
-      <div class="section-inner hero-grid">
-        <div>
-          <h1>Welcome to Team BaerCraft</h1>
-          <p class="lead">
-            We build cozy chaos: Minecraft mods, modpacks, and resource packs
-            that mix creativity, challenge, and a whole lot of personality.
-          </p>
-          <p class="muted">
-            This site pulls live-ish download counts for our projects from
-            CurseForge (via Shields.io) using GitHub Actions.
-          </p>
-          <a href="projects.html" class="primary-btn">
-            View Projects
-          </a>
-        </div>
-        <div class="hero-callout">
-          <h2>Live Stats Snapshot</h2>
-          <p id="global-last-updated" class="muted">
-            Loading last updated time…
-          </p>
-          <p class="muted small">
-            Updated automatically by GitHub Actions on a schedule.
-          </p>
+    <section id="projects" class="section">
+      <div class="section-inner">
+        <h2>Projects</h2>
+        <p class="muted">
+          Mods, modpacks, and resource packs maintained by Team BaerCraft.
+          Download counts are approximate and pulled from CurseForge badges.
+        </p>
+        <p id="global-last-updated" class="muted small">
+          Loading last updated time…
+        </p>
+
+        <div id="projects-grid" class="projects-grid">
+          <div class="project-card placeholder">
+            <h3>Loading projects…</h3>
+            <p class="muted">
+              If this message stays, check that download-data.json is present and
+              that the GitHub Action has run successfully.
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -28,9 +28,12 @@ function getDelta(latest, prev) {
   return latest.downloadApprox - prev.downloadApprox;
 }
 
-async function loadProjects() {
+async function loadStats() {
   const grid = document.getElementById("projects-grid");
   const globalUpdatedEl = document.getElementById("global-last-updated");
+
+  // If neither element exists, nothing to do on this page
+  if (!grid && !globalUpdatedEl) return;
 
   try {
     const res = await fetch("download-data.json", { cache: "no-cache" });
@@ -41,17 +44,28 @@ async function loadProjects() {
     const data = await res.json();
 
     const projects = Array.isArray(data.projects) ? data.projects : [];
+
+    // Update global "last updated" if element exists
+    if (globalUpdatedEl) {
+      if (!data.lastUpdated) {
+        globalUpdatedEl.textContent =
+          "No data yet. Waiting for the GitHub Action to run.";
+      } else {
+        const last = new Date(data.lastUpdated);
+        globalUpdatedEl.textContent = `Last updated: ${last.toLocaleString()}`;
+      }
+    }
+
+    // If there's no projects grid on this page, we're done
+    if (!grid) return;
+
     if (!projects.length) {
       grid.innerHTML =
         '<div class="project-card"><h3>No projects yet</h3><p class="muted">Waiting for the GitHub Action to populate data.</p></div>';
-      if (globalUpdatedEl) {
-        globalUpdatedEl.textContent =
-          "No data yet. Check that the workflow has run successfully.";
-      }
       return;
     }
 
-    // Optional: sort by name
+    // Sort by name
     projects.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
     const cards = projects.map((proj) => {
@@ -68,7 +82,6 @@ async function loadProjects() {
           : `${delta > 0 ? "+" : ""}${delta.toLocaleString()} since last check`;
 
       const type = proj.type || "Project";
-
       const url = proj.curseforgeUrl || "#";
 
       return `
@@ -87,25 +100,22 @@ async function loadProjects() {
     });
 
     grid.innerHTML = cards.join("");
-
-    if (globalUpdatedEl) {
-      const last = data.lastUpdated
-        ? new Date(data.lastUpdated)
-        : new Date();
-      globalUpdatedEl.textContent = `Last updated: ${last.toLocaleString()}`;
-    }
   } catch (err) {
     console.error(err);
+
+    if (globalUpdatedEl) {
+      globalUpdatedEl.textContent =
+        "Error loading data. Check browser console and GitHub Actions logs.";
+    }
+
     if (grid) {
       grid.innerHTML =
         '<div class="project-card"><h3>Error loading data</h3><p class="muted">Check the browser console and the GitHub Actions logs.</p></div>';
     }
-    if (globalUpdatedEl) {
-      globalUpdatedEl.textContent =
-        "Error loading data. See console / workflow logs.";
-    }
   }
 }
 
-setCurrentYear();
-loadProjects();
+document.addEventListener("DOMContentLoaded", () => {
+  setCurrentYear();
+  loadStats();
+});
