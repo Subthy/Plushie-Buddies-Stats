@@ -190,6 +190,16 @@ h1 {
   gap: 0.35rem;
 }
 
+/* NEW: logo styling */
+.project-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  margin-bottom: 0.35rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
 .project-card h3 {
   margin: 0;
   font-size: 1.1rem;

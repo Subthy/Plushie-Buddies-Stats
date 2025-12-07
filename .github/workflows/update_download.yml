@@ -22,9 +22,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Fetch download counts from Shields.io
+      - name: Fetch download counts and logos
         run: |
-          node << 'EOF'
           const https = require('https');
           const fs = require('fs');
 
@@ -132,11 +131,32 @@ jobs:
             });
           }
 
+          function fetchPage(url) {
+            return new Promise((resolve, reject) => {
+              https
+                .get(url, (res) => {
+                  let body = '';
+                  res.on('data', (chunk) => (body += chunk));
+                  res.on('end', () => {
+                    if (res.statusCode !== 200) {
+                      return reject(
+                        new Error(`CurseForge page ${url} returned ${res.statusCode}`)
+                      );
+                    }
+                    resolve(body);
+                  });
+                })
+                .on('error', (err) => {
+                  reject(err);
+                });
+            });
+          }
+
           function parseDownloadMessage(msg) {
             if (typeof msg !== 'string') return null;
             const trimmed = msg.trim().toLowerCase();
 
-            // Try patterns like "12.3k", "1.2M", "1234"
+            // Try patterns like "12.3k", "1.2m", "1234"
             const match = trimmed.match(/^([\d.,]+)\s*([kmb])?$/i);
             if (!match) {
               const numeric = parseInt(trimmed.replace(/[^0-9]/g, ''), 10);
@@ -181,17 +201,14 @@ jobs:
             const updatedProjects = [];
 
             for (const proj of PROJECTS) {
-              console.log(`Fetching badge for ${proj.name} (${proj.id})`);
+              console.log(`Fetching stats for ${proj.name} (${proj.id})`);
+
+              // 1) Downloads from Shields.io
               const badge = await fetchBadge(proj.id);
               const message = badge && badge.message;
               const approx = parseDownloadMessage(message);
 
-              const entry = {
-                timestamp: now,
-                downloadDisplay: message,
-                downloadApprox: approx
-              };
-
+              // 2) Start from any existing project data
               const existingProj =
                 existingById.get(proj.id) || {
                   id: proj.id,
@@ -199,13 +216,34 @@ jobs:
                   name: proj.name,
                   type: proj.type,
                   curseforgeUrl: proj.curseforgeUrl,
-                  history: []
+                  history: [],
+                  logoUrl: null
                 };
 
               existingProj.slug = proj.slug;
               existingProj.name = proj.name;
               existingProj.type = proj.type;
               existingProj.curseforgeUrl = proj.curseforgeUrl;
+
+              // 3) Try to fetch logo from CurseForge HTML
+              let logoUrl = existingProj.logoUrl || null;
+              try {
+                const html = await fetchPage(proj.curseforgeUrl);
+                const match = html.match(/https:\/\/media\.forgecdn\.net\/avatars\/[^\s"']+/);
+                if (match && match[0]) {
+                  logoUrl = match[0];
+                }
+              } catch (e) {
+                console.error(`Failed to fetch logo for ${proj.name}:`, e.message || e);
+              }
+              existingProj.logoUrl = logoUrl;
+
+              // 4) Append history entry
+              const entry = {
+                timestamp: now,
+                downloadDisplay: message,
+                downloadApprox: approx
+              };
 
               existingProj.history.push(entry);
               if (existingProj.history.length > MAX_HISTORY) {
@@ -216,7 +254,7 @@ jobs:
 
               updatedProjects.push(existingProj);
               console.log(
-                `Recorded ${proj.name}: ${message} (approx ${approx}) at ${now}`
+                `Recorded ${proj.name}: ${message} (approx ${approx}) at ${now}; logo: ${logoUrl || 'none'}`
               );
             }
 
@@ -236,7 +274,6 @@ jobs:
             console.error('Error updating download data:', err);
             process.exit(1);
           });
-          EOF
 
       - name: Commit and push changes (if any)
         run: |
@@ -244,7 +281,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add download-data.json
-            git commit -m "Update download counts (multi-project)"
+            git commit -m "Update download counts & logos"
             git push
           else
             echo "No changes to commit.";

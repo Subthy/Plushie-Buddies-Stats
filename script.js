@@ -65,7 +65,7 @@ async function loadStats() {
       return;
     }
 
-    // Sort by name
+    // Sort by name for consistency
     projects.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
     const cards = projects.map((proj) => {
@@ -84,8 +84,14 @@ async function loadStats() {
       const type = proj.type || "Project";
       const url = proj.curseforgeUrl || "#";
 
+      const logoHtml =
+        proj.logoUrl && typeof proj.logoUrl === "string"
+          ? `<img class="project-logo" src="${proj.logoUrl}" alt="${proj.name || "Project"} logo" loading="lazy" />`
+          : "";
+
       return `
         <article class="project-card">
+          ${logoHtml}
           <div class="project-type">${type}</div>
           <h3>${proj.name || "Unnamed project"}</h3>
           <div class="project-count">${display}</div>
