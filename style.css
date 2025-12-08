@@ -417,7 +417,6 @@ h1 {
   border-top: 1px solid var(--border-subtle);
   background: var(--panel-alt);
   padding: 0.9rem 1.25rem 1.2rem;
-  margin-top: 2.5rem; /* push footer a bit lower */
 }
 
 .footer-inner {
