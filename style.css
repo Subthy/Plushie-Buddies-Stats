@@ -294,7 +294,9 @@ h1 {
   margin-top: 1.2rem;
 }
 
-.primary-btn {
+/* Make both hero buttons identical */
+.hero-actions .primary-btn,
+.hero-actions .discord-btn {
   display: inline-block;
   padding: 0.75rem 1.7rem;
   border-radius: 999px;
@@ -308,28 +310,11 @@ h1 {
   font-size: 0.9rem;
 }
 
-.primary-btn:hover {
+.hero-actions .primary-btn:hover,
+.hero-actions .discord-btn:hover {
   background: var(--accent-strong);
 }
 
-.discord-btn {
-  display: inline-block;
-  padding: 0.75rem 1.7rem;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-  border: 1px solid var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-}
-
-.discord-btn:hover {
-  background: var(--accent);
-  color: #020617;
-}
 
 /* ===== PROJECTS GRID ===== */
 
@@ -434,6 +419,7 @@ h1 {
   border-top: 1px solid var(--border-subtle);
   background: var(--panel-alt);
   padding: 0.9rem 1.25rem 1.2rem;
+  margin-top: 2.5rem; /* push footer a bit lower */
 }
 
 .footer-inner {
