@@ -7,31 +7,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Starry animated background -->
   <div class="sky-bg">
     <div class="stars"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
   </div>
- <header class="site-header">
-  <div class="header-inner">
-    <a href="index.html" class="logo">
-      <img
-        src="assets/baercraft_logo_no_background.png"
-        alt="Team BaerCraft logo"
-        class="logo-img"
-      />
-      <span class="logo-text">Team BaerCraft</span>
-    </a>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="about.html">About Us</a>
-    </nav>
-  </div>
-</header>
 
-
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img
+          src="assets/baercraft_logo_no_background.png"
+          alt="Team BaerCraft logo"
+          class="logo-img"
+        />
+        <span class="logo-text">Team BaerCraft</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="about.html">About Us</a>
+      </nav>
+    </div>
+  </header>
 
   <main>
     <section id="projects" class="section">
@@ -46,11 +46,11 @@
         </p>
 
         <div id="projects-grid" class="projects-grid">
-          <div class="project-card placeholder">
+          <div class="project-card">
             <h3>Loading projects…</h3>
             <p class="muted">
-              If this message stays, check that download-data.json is present and
-              that the GitHub Action has run successfully.
+              If this message stays, check that <code>download-data.json</code> exists
+              and that the GitHub Action has run successfully.
             </p>
           </div>
         </div>

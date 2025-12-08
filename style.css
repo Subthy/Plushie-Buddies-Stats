@@ -37,7 +37,7 @@ body {
   background: #050816; /* fallback behind starfield */
 }
 
-/* Full-screen fixed background with your gradient & stars */
+/* Full-screen fixed background */
 .sky-bg {
   position: fixed;
   inset: 0;
@@ -64,8 +64,8 @@ body {
     83vw 48vh 1px white, 88vw 20vh 2px white, 93vw 52vh 1px white,
     98vw 35vh 2px white, 5vw 60vh 1px white, 12vw 65vh 2px white,
     18vw 72vh 1px white, 25vw 78vh 2px white, 30vw 85vh 1px white,
-    35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 2px white,
-    50vw 75vh 1px white, 55vw 88vh 2px white, 60vw 95vh 1px white,
+    35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 1px white,
+    50vw 75vh 1px white, 55vw 88vh 1px white, 60vw 95vh 1px white,
     65vw 72vh 2px white, 70vw 85vh 1px white, 75vw 78vh 2px white,
     80vw 92vh 1px white, 85vw 82vh 2px white, 90vw 88vh 1px white,
     95vw 75vh 2px white;
@@ -173,21 +173,16 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-main);
-  text-decoration: none; /* because it's now an <a> */
+  text-decoration: none;
 }
 
 .logo-img {
-  height: 24px;       /* ↓ smaller logo */
+  height: 24px;
   max-height: 24px;
   width: auto;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.5));
-}
-
-
-.logo-text {
-  font-size: 0.95rem;
 }
 
 .logo-text {
@@ -292,9 +287,15 @@ h1 {
   font-size: 0.85rem;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.2rem;
+}
+
 .primary-btn {
   display: inline-block;
-  margin-top: 1.2rem;
   padding: 0.75rem 1.7rem;
   border-radius: 999px;
   background: var(--accent);
@@ -307,16 +308,8 @@ h1 {
   font-size: 0.9rem;
 }
 
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.2rem;
-}
-
-/* Keep the primary button flush inside hero-actions */
-.hero-actions .primary-btn {
-  margin-top: 0;
+.primary-btn:hover {
+  background: var(--accent-strong);
 }
 
 .discord-btn {
@@ -336,11 +329,6 @@ h1 {
 .discord-btn:hover {
   background: var(--accent);
   color: #020617;
-}
-
-
-.primary-btn:hover {
-  background: var(--accent-strong);
 }
 
 /* ===== PROJECTS GRID ===== */
@@ -428,7 +416,7 @@ h1 {
   text-decoration: underline;
 }
 
-/* ===== CONTACT LIST ===== */
+/* ===== CONTACT LIST (used on About) ===== */
 
 .contact-list {
   list-style: none;

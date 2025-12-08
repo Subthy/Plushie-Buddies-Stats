@@ -42,7 +42,6 @@ async function loadStats() {
     }
 
     const data = await res.json();
-
     const projects = Array.isArray(data.projects) ? data.projects : [];
 
     // Update global "last updated" if element exists

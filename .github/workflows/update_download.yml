@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    # Every hour at minute 5 — adjust if you like
+    # Every hour at minute 5 — change if you want
     - cron: "5 * * * *"
   workflow_dispatch: {}
 
@@ -104,9 +104,7 @@ jobs:
 
           const MAX_HISTORY = 500;
 
-          function fetchBadge(projectId) {
-            const url = `https://img.shields.io/curseforge/dt/${projectId}.json`;
-
+          function fetchJson(url) {
             return new Promise((resolve, reject) => {
               https
                 .get(url, (res) => {
@@ -115,41 +113,45 @@ jobs:
                   res.on('end', () => {
                     if (res.statusCode !== 200) {
                       return reject(
-                        new Error(`Shields.io for ${projectId} returned ${res.statusCode}: ${body}`)
+                        new Error(`${url} returned ${res.statusCode}: ${body}`)
                       );
                     }
                     try {
                       const json = JSON.parse(body);
                       resolve(json);
                     } catch (e) {
-                      reject(new Error(`Failed to parse JSON for ${projectId}: ${e.message}`));
+                      reject(new Error(`Failed to parse JSON from ${url}: ${e.message}`));
                     }
                   });
                 })
-                .on('error', (err) => {
-                  reject(err);
-                });
+                .on('error', (err) => reject(err));
             });
           }
 
           function fetchPage(url) {
             return new Promise((resolve, reject) => {
               https
-                .get(url, (res) => {
-                  let body = '';
-                  res.on('data', (chunk) => (body += chunk));
-                  res.on('end', () => {
-                    if (res.statusCode !== 200) {
-                      return reject(
-                        new Error(`CurseForge page ${url} returned ${res.statusCode}`)
-                      );
+                .get(
+                  url,
+                  {
+                    headers: {
+                      'User-Agent': 'TeamBaerCraft-GitHubActions/1.0'
                     }
-                    resolve(body);
-                  });
-                })
-                .on('error', (err) => {
-                  reject(err);
-                });
+                  },
+                  (res) => {
+                    let body = '';
+                    res.on('data', (chunk) => (body += chunk));
+                    res.on('end', () => {
+                      if (res.statusCode !== 200) {
+                        return reject(
+                          new Error(`CurseForge page ${url} returned ${res.statusCode}`)
+                        );
+                      }
+                      resolve(body);
+                    });
+                  }
+                )
+                .on('error', (err) => reject(err));
             });
           }
 
@@ -157,7 +159,6 @@ jobs:
             if (typeof msg !== 'string') return null;
             const trimmed = msg.trim().toLowerCase();
 
-            // Try patterns like "12.3k", "1.2m", "1234"
             const match = trimmed.match(/^([\d.,]+)\s*([kmb])?$/i);
             if (!match) {
               const numeric = parseInt(trimmed.replace(/[^0-9]/g, ''), 10);
@@ -171,6 +172,36 @@ jobs:
             else if (suffix === 'm') num *= 1_000_000;
             else if (suffix === 'b') num *= 1_000_000_000;
             return Math.round(num);
+          }
+
+          function extractLogoUrl(html) {
+            if (typeof html !== 'string') return null;
+
+            // 1) Try og:image meta tag first
+            const ogMatch = html.match(
+              /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i
+            );
+            if (ogMatch && ogMatch[1]) {
+              return ogMatch[1];
+            }
+
+            // 2) Fallback: any media.forgecdn.net avatars URL
+            const avatarMatch = html.match(
+              /https?:\/\/media\.forgecdn\.net\/avatars\/[^\s"']+/i
+            );
+            if (avatarMatch && avatarMatch[0]) {
+              return avatarMatch[0];
+            }
+
+            // 3) Last resort: any media.forgecdn.net image
+            const anyImgMatch = html.match(
+              /https?:\/\/media\.forgecdn\.net\/[^\s"']+\.(?:png|jpe?g|gif)/i
+            );
+            if (anyImgMatch && anyImgMatch[0]) {
+              return anyImgMatch[0];
+            }
+
+            return null;
           }
 
           // Load existing data
@@ -205,7 +236,9 @@ jobs:
               console.log(`Fetching stats for ${proj.name} (${proj.id})`);
 
               // 1) Downloads from Shields.io
-              const badge = await fetchBadge(proj.id);
+              const badge = await fetchJson(
+                `https://img.shields.io/curseforge/dt/${proj.id}.json`
+              );
               const message = badge && badge.message;
               const approx = parseDownloadMessage(message);
 
@@ -230,12 +263,15 @@ jobs:
               let logoUrl = existingProj.logoUrl || null;
               try {
                 const html = await fetchPage(proj.curseforgeUrl);
-                const match = html.match(/https:\/\/media\.forgecdn\.net\/avatars\/[^\s"']+/);
-                if (match && match[0]) {
-                  logoUrl = match[0];
+                const extracted = extractLogoUrl(html);
+                if (extracted) {
+                  logoUrl = extracted;
                 }
               } catch (e) {
-                console.error(`Failed to fetch logo for ${proj.name}:`, e.message || e);
+                console.error(
+                  `Failed to fetch logo for ${proj.name}:`,
+                  e && e.message ? e.message : e
+                );
               }
               existingProj.logoUrl = logoUrl;
 
