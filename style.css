@@ -177,11 +177,14 @@ body {
 }
 
 .logo-img {
-  height: 32px;
+  height: 24px;       /* ↓ smaller logo */
+  max-height: 24px;
   width: auto;
   display: block;
-  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.5));
 }
+
 
 .logo-text {
   font-size: 0.95rem;
