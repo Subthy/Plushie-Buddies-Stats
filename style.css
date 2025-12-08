@@ -5,22 +5,21 @@
 }
 
 :root {
-  /* Firewatch-ish palette */
-  --bg: #180406;
-  --bg-alt: #2b0b10;
-  --hero-top: #ffb347;
-  --hero-mid: #f27b30;
-  --hero-bottom: #3b0508;
+  /* Light blue / modern dashboard palette */
+  --bg: #f3f7ff;
+  --bg-alt: #e4efff;
+  --hero-top: #e0ebff;
+  --hero-bottom: #f8fbff;
 
-  --card-bg: #2f0f13;
-  --accent: #ffb347;
-  --accent-strong: #ff9e28;
-  --accent-soft: rgba(255, 179, 71, 0.2);
-  --accent-text: #1b0504;
+  --card-bg: #ffffff;
+  --accent: #3b82f6;
+  --accent-strong: #1d4ed8;
+  --accent-soft: #dbeafe;
+  --accent-text: #0f172a;
 
-  --text-main: #ffe8c7;
-  --text-muted: #f3caa08f;
-  --border-subtle: rgba(255, 216, 158, 0.25);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-subtle: #e2e8f0;
 
   --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -35,15 +34,10 @@ body {
   min-height: 100vh;
   font-family: var(--font-main);
   color: var(--text-main);
-
   background:
-    linear-gradient(
-      180deg,
-      var(--hero-top) 0%,
-      var(--hero-mid) 12%,
-      var(--hero-bottom) 32%,
-      #050203 100%
-    );
+    radial-gradient(circle at top left, #e5efff 0, transparent 50%),
+    radial-gradient(circle at bottom right, #e0f2fe 0, transparent 55%),
+    var(--bg);
 }
 
 /* HEADER / NAV */
@@ -53,11 +47,7 @@ body {
   top: 0;
   z-index: 20;
   backdrop-filter: blur(12px);
-  background: linear-gradient(
-    90deg,
-    rgba(41, 7, 5, 0.96),
-    rgba(21, 3, 2, 0.96)
-  );
+  background: rgba(248, 250, 252, 0.92);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -76,9 +66,9 @@ body {
   align-items: center;
   gap: 0.4rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #ffe5b3;
+  color: var(--accent-text);
 }
 
 .logo-mark {
@@ -103,13 +93,13 @@ body {
   font-size: 0.85rem;
   border: 1px solid transparent;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
 }
 
 .nav a:hover {
-  color: #1b0504;
-  border-color: #ffcf6f;
-  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent-soft);
+  background: var(--accent-soft);
 }
 
 /* SECTIONS */
@@ -119,13 +109,12 @@ body {
 }
 
 .section-alt {
-  background: radial-gradient(
-      circle at top left,
-      rgba(255, 199, 116, 0.08),
-      transparent 55%
-    ),
-    radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.5), transparent 55%),
-    var(--bg-alt);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(219, 234, 254, 0.9),
+      rgba(248, 250, 252, 0.95)
+    );
 }
 
 .section-inner {
@@ -137,44 +126,20 @@ body {
   margin-top: 0;
   margin-bottom: 0.75rem;
   font-size: 1.6rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
 }
 
 /* HERO */
 
 .section-hero {
-  position: relative;
-  padding-top: 4.25rem;
-  padding-bottom: 3.25rem;
-  color: #2c0502;
-}
-
-.section-hero .section-inner {
-  position: relative;
-  z-index: 1;
-}
-
-/* atmospheric overlay to hint at the Firewatch sky */
-.section-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      var(--hero-top) 0%,
-      var(--hero-mid) 35%,
-      transparent 70%
-    ),
-    radial-gradient(circle at top center, #ffe7b8 0, transparent 55%);
-  opacity: 0.92;
-  z-index: 0;
+  padding-top: 4rem;
+  padding-bottom: 3rem;
+  background: linear-gradient(180deg, var(--hero-top), var(--hero-bottom));
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
   gap: 2.25rem;
   align-items: flex-start;
 }
@@ -188,8 +153,6 @@ body {
 h1 {
   margin: 0 0 1rem;
   font-size: clamp(2rem, 4vw, 2.6rem);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
 }
 
 .lead {
@@ -211,27 +174,25 @@ h1 {
   padding: 0.7rem 1.6rem;
   border-radius: 999px;
   background: var(--accent);
-  color: var(--accent-text);
+  color: #ffffff;
   text-decoration: none;
-  font-weight: 700;
-  border: 2px solid #ffcf6f;
+  font-weight: 600;
+  border: 1px solid var(--accent-strong);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   font-size: 0.9rem;
 }
 
 .primary-btn:hover {
   background: var(--accent-strong);
-  border-color: #ffe098;
 }
 
 .hero-callout {
-  background: rgba(24, 4, 6, 0.9);
+  background: #ffffff;
   border-radius: 1rem;
   padding: 1.25rem 1.1rem;
-  border: 1px solid rgba(0, 0, 0, 0.85);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
-  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
 /* PROJECTS */
@@ -248,12 +209,11 @@ h1 {
   background: var(--card-bg);
   border-radius: 0.9rem;
   padding: 1.1rem 0.95rem;
-  border: 1px solid rgba(0, 0, 0, 0.85);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  overflow: hidden;
 }
 
 /* subtle top accent bar */
@@ -263,13 +223,8 @@ h1 {
   left: 0;
   right: 0;
   top: 0;
-  height: 4px;
-  background: linear-gradient(
-    90deg,
-    #ffcf6f,
-    #ff9e28,
-    #ffcf6f
-  );
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #60a5fa);
 }
 
 .project-logo {
@@ -278,8 +233,8 @@ h1 {
   border-radius: 0.75rem;
   object-fit: cover;
   margin-bottom: 0.35rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  background: rgba(255, 231, 191, 0.05);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+  background: #eff6ff;
 }
 
 .project-card h3 {
@@ -290,7 +245,7 @@ h1 {
 .project-type {
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
 }
 
@@ -313,15 +268,13 @@ h1 {
   font-size: 0.85rem;
   color: var(--accent);
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 
 .project-links a:hover {
   text-decoration: underline;
 }
 
-/* ABOUT & CONTACT */
+/* CONTACT */
 
 .contact-list {
   list-style: none;
@@ -337,7 +290,7 @@ h1 {
 
 .site-footer {
   border-top: 1px solid var(--border-subtle);
-  background: #140305;
+  background: #f8fafc;
   padding: 0.9rem 1.25rem 1.2rem;
 }
 
