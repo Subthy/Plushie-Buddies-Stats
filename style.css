@@ -4,22 +4,23 @@
   box-sizing: border-box;
 }
 
+/* ========= COLOR THEME ========= */
+
 :root {
-  /* Slightly darker light-blue palette */
-  --bg: #d7e2ff;
-  --bg-alt: #c7d7fb;
-  --hero-top: #c3d3ff;
-  --hero-bottom: #e1e9ff;
+  --bg: #020617;            /* deep slate / space */
+  --bg-alt: #020617;
+  --hero-overlay-top: rgba(15, 23, 42, 0.85);
+  --hero-overlay-bottom: rgba(15, 23, 42, 0.9);
 
-  --card-bg: #ffffff;
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --accent-soft: #c7d8ff;
-  --accent-text: #0b1220;
+  --card-bg: rgba(15, 23, 42, 0.95);    /* dark panel */
+  --accent: #38bdf8;                    /* cyan/sky */
+  --accent-strong: #0ea5e9;
+  --accent-soft: rgba(56, 189, 248, 0.2);
+  --accent-text: #0b1120;
 
-  --text-main: #020617;
-  --text-muted: #64748b;
-  --border-subtle: #c3d1f3;
+  --text-main: #e2e8f0;   /* slate-200 */
+  --text-muted: #94a3b8;  /* slate-400 */
+  --border-subtle: rgba(148, 163, 184, 0.5);
 
   --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -29,25 +30,131 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ========= BASE & BACKGROUND ========= */
+
 body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-main);
   color: var(--text-main);
-  background:
-    radial-gradient(circle at top left, #c3d4ff 0, transparent 55%),
-    radial-gradient(circle at bottom right, #bfd8ff 0, transparent 60%),
-    var(--bg);
+  background: #090a0f; /* fallback under starfield */
 }
 
-/* HEADER / NAV */
+/* Full-screen fixed starfield background */
+.sky-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;           /* behind everything */
+  overflow: hidden;
+  pointer-events: none;  /* don't block clicks/hover */
+  background: linear-gradient(to bottom, #0b0b2b, #1b2735 70%, #090a0f);
+}
+
+/* Base stars */
+.stars {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  box-shadow:
+    2vw 5vh 2px white, 10vw 8vh 2px white, 15vw 15vh 1px white,
+    22vw 22vh 1px white, 28vw 12vh 2px white, 32vw 32vh 1px white,
+    38vw 18vh 2px white, 42vw 35vh 1px white, 48vw 25vh 2px white,
+    53vw 42vh 1px white, 58vw 15vh 2px white, 63vw 38vh 1px white,
+    68vw 28vh 2px white, 73vw 45vh 1px white, 78vw 32vh 2px white,
+    83vw 48vh 1px white, 88vw 20vh 2px white, 93vw 52vh 1px white,
+    98vw 35vh 2px white, 5vw 60vh 1px white, 12vw 65vh 2px white,
+    18vw 72vh 1px white, 25vw 78vh 2px white, 30vw 85vh 1px white,
+    35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 2px white,
+    50vw 75vh 1px white, 55vw 88vh 2px white, 60vw 95vh 1px white,
+    65vw 72vh 2px white, 70vw 85vh 1px white, 75vw 78vh 2px white,
+    80vw 92vh 1px white, 85vw 82vh 2px white, 90vw 88vh 1px white,
+    95vw 75vh 2px white;
+  animation: twinkle 8s infinite linear;
+}
+
+/* Extra twinkling stars */
+.stars::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: white;
+  box-shadow:
+    8vw 12vh 2px white, 16vw 18vh 1px white, 24vw 25vh 2px white,
+    33vw 15vh 1px white, 41vw 28vh 2px white, 49vw 35vh 1px white,
+    57vw 22vh 2px white, 65vw 42vh 1px white, 73vw 28vh 2px white,
+    81vw 48vh 1px white, 89vw 32vh 2px white, 97vw 45vh 1px white,
+    3vw 68vh 2px white, 11vw 75vh 1px white, 19vw 82vh 2px white,
+    27vw 88vh 1px white, 35vw 72vh 2px white, 43vw 85vh 1px white,
+    51vw 92vh 2px white, 59vw 78vh 1px white;
+  animation: twinkle 6s infinite linear reverse;
+}
+
+/* Shooting stars */
+.shooting-star {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, white, transparent);
+  animation: shoot 3s infinite ease-in;
+}
+
+/* Three different tracks (remember: first child is .stars) */
+.shooting-star:nth-child(2) {
+  top: 20%;
+  left: -120px;
+  animation-delay: 0s;
+}
+
+.shooting-star:nth-child(3) {
+  top: 40%;
+  left: -120px;
+  animation-delay: 1s;
+}
+
+.shooting-star:nth-child(4) {
+  top: 60%;
+  left: -120px;
+  animation-delay: 2s;
+}
+
+/* Star animations */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0) rotate(25deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120vw) translateY(50vh) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* ========= HEADER / NAV ========= */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  backdrop-filter: blur(12px);
-  background: rgba(239, 243, 255, 0.94);
+  backdrop-filter: blur(14px);
+  background: radial-gradient(
+    circle at top left,
+    rgba(37, 99, 235, 0.35),
+    rgba(15, 23, 42, 0.96)
+  );
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -66,9 +173,9 @@ body {
   align-items: center;
   gap: 0.4rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent-text);
+  color: var(--text-main);
 }
 
 .logo-mark {
@@ -99,10 +206,10 @@ body {
 .nav a:hover {
   color: var(--accent-text);
   border-color: var(--accent-soft);
-  background: var(--accent-soft);
+  background: var(--accent);
 }
 
-/* SECTIONS */
+/* ========= SECTIONS ========= */
 
 .section {
   padding: 3rem 1.25rem;
@@ -110,11 +217,8 @@ body {
 
 .section-alt {
   background:
-    linear-gradient(
-      180deg,
-      rgba(191, 219, 254, 0.9),
-      rgba(248, 250, 252, 0.96)
-    );
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.22), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.8), transparent 55%);
 }
 
 .section-inner {
@@ -128,13 +232,25 @@ body {
   font-size: 1.6rem;
 }
 
-/* HERO */
+/* ========= HERO ========= */
 
 .section-hero {
   padding-top: 4rem;
   padding-bottom: 3rem;
-  background: linear-gradient(180deg, var(--hero-top), var(--hero-bottom));
-  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.section-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--hero-overlay-top),
+    var(--hero-overlay-bottom)
+  );
+  opacity: 0.88;
+  z-index: -1;
 }
 
 .hero-grid {
@@ -171,10 +287,10 @@ h1 {
 .primary-btn {
   display: inline-block;
   margin-top: 1.2rem;
-  padding: 0.7rem 1.6rem;
+  padding: 0.75rem 1.7rem;
   border-radius: 999px;
   background: var(--accent);
-  color: #ffffff;
+  color: #020617;
   text-decoration: none;
   font-weight: 600;
   border: 1px solid var(--accent-strong);
@@ -187,16 +303,7 @@ h1 {
   background: var(--accent-strong);
 }
 
-.hero-callout {
-  /* No longer used on home page, but kept for future if needed */
-  background: #ffffff;
-  border-radius: 1rem;
-  padding: 1.25rem 1.1rem;
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-}
-
-/* PROJECTS */
+/* ========= PROJECTS ========= */
 
 .projects-grid {
   margin-top: 1.8rem;
@@ -209,15 +316,16 @@ h1 {
   position: relative;
   background: var(--card-bg);
   border-radius: 0.9rem;
-  padding: 1.1rem 0.95rem;
+  padding: 1.1rem 0.95rem 1.1rem;
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  backdrop-filter: blur(16px);
 }
 
-/* subtle top accent bar */
+/* subtle holographic top edge */
 .project-card::before {
   content: "";
   position: absolute;
@@ -225,7 +333,12 @@ h1 {
   right: 0;
   top: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent), #60a5fa);
+  background: linear-gradient(
+    90deg,
+    rgba(56, 189, 248, 0.9),
+    rgba(129, 140, 248, 0.9),
+    rgba(56, 189, 248, 0.9)
+  );
 }
 
 .project-logo {
@@ -234,8 +347,8 @@ h1 {
   border-radius: 0.75rem;
   object-fit: cover;
   margin-bottom: 0.35rem;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
-  background: #eff4ff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.9);
 }
 
 .project-card h3 {
@@ -275,7 +388,7 @@ h1 {
   text-decoration: underline;
 }
 
-/* CONTACT */
+/* ========= CONTACT ========= */
 
 .contact-list {
   list-style: none;
@@ -287,11 +400,11 @@ h1 {
   margin-top: 0.4rem;
 }
 
-/* FOOTER */
+/* ========= FOOTER ========= */
 
 .site-footer {
   border-top: 1px solid var(--border-subtle);
-  background: #e5edff;
+  background: rgba(15, 23, 42, 0.96);
   padding: 0.9rem 1.25rem 1.2rem;
 }
 
@@ -307,114 +420,4 @@ h1 {
 
 .footer-note {
   color: var(--text-muted);
-}
-/* --- Starry animated background --- */
-
-/* Make sure body can still scroll; we only use it as a canvas color */
-body {
-  background: #090a0f;
-}
-
-/* Full-screen fixed background layer behind the site */
-.sky-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;           /* behind everything */
-  overflow: hidden;
-  pointer-events: none;  /* don't block clicks/scroll */
-  background: linear-gradient(to bottom, #0b0b2b, #1b2735 70%, #090a0f);
-}
-
-/* Base stars (many via box-shadow) */
-.stars {
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: white;
-  box-shadow:
-    2vw 5vh 2px white, 10vw 8vh 2px white, 15vw 15vh 1px white,
-    22vw 22vh 1px white, 28vw 12vh 2px white, 32vw 32vh 1px white,
-    38vw 18vh 2px white, 42vw 35vh 1px white, 48vw 25vh 2px white,
-    53vw 42vh 1px white, 58vw 15vh 2px white, 63vw 38vh 1px white,
-    68vw 28vh 2px white, 73vw 45vh 1px white, 78vw 32vh 2px white,
-    83vw 48vh 1px white, 88vw 20vh 2px white, 93vw 52vh 1px white,
-    98vw 35vh 2px white, 5vw 60vh 1px white, 12vw 65vh 2px white,
-    18vw 72vh 1px white, 25vw 78vh 2px white, 30vw 85vh 1px white,
-    35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 2px white,
-    50vw 75vh 1px white, 55vw 88vh 2px white, 60vw 95vh 1px white,
-    65vw 72vh 2px white, 70vw 85vh 1px white, 75vw 78vh 2px white,
-    80vw 92vh 1px white, 85vw 82vh 2px white, 90vw 88vh 1px white,
-    95vw 75vh 2px white;
-  animation: twinkle 8s infinite linear;
-}
-
-/* Extra twinkling stars with different timing */
-.stars::after {
-  content: "";
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  background: white;
-  box-shadow:
-    8vw 12vh 2px white, 16vw 18vh 1px white, 24vw 25vh 2px white,
-    33vw 15vh 1px white, 41vw 28vh 2px white, 49vw 35vh 1px white,
-    57vw 22vh 2px white, 65vw 42vh 1px white, 73vw 28vh 2px white,
-    81vw 48vh 1px white, 89vw 32vh 2px white, 97vw 45vh 1px white,
-    3vw 68vh 2px white, 11vw 75vh 1px white, 19vw 82vh 2px white,
-    27vw 88vh 1px white, 35vw 72vh 2px white, 43vw 85vh 1px white,
-    51vw 92vh 2px white, 59vw 78vh 1px white;
-  animation: twinkle 6s infinite linear reverse;
-}
-
-/* Shooting stars */
-.shooting-star {
-  position: absolute;
-  width: 100px;
-  height: 2px;
-  background: linear-gradient(90deg, white, transparent);
-  animation: shoot 3s infinite ease-in;
-}
-
-/* Three different tracks & delays */
-.shooting-star:nth-child(2) {
-  top: 20%;
-  left: -120px;
-  animation-delay: 0s;
-}
-
-.shooting-star:nth-child(3) {
-  top: 40%;
-  left: -120px;
-  animation-delay: 1s;
-}
-
-.shooting-star:nth-child(4) {
-  top: 60%;
-  left: -120px;
-  animation-delay: 2s;
-}
-
-/* Animations */
-
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-@keyframes shoot {
-  0% {
-    transform: translateX(0) translateY(0) rotate(25deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(120vw) translateY(50vh) rotate(25deg);
-    opacity: 0;
-  }
 }
