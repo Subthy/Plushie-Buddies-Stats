@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-12-29T17:25:47.418Z",
+  "lastUpdated": "2025-12-29T18:39:59.560Z",
   "projects": [
     {
       "id": 990265,
@@ -2360,6 +2360,11 @@
         },
         {
           "timestamp": "2025-12-29T17:25:47.418Z",
+          "downloadDisplay": "3.3M",
+          "downloadApprox": 3300000
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
           "downloadDisplay": "3.3M",
           "downloadApprox": 3300000
         }
@@ -4727,6 +4732,11 @@
           "timestamp": "2025-12-29T17:25:47.418Z",
           "downloadDisplay": "4.1k",
           "downloadApprox": 4100
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
+          "downloadDisplay": "4.1k",
+          "downloadApprox": 4100
         }
       ],
       "logoUrl": "https://media.forgecdn.net/avatars/thumbnails/1409/950/256/256/638913674373818270_animated.gif"
@@ -7090,6 +7100,11 @@
         },
         {
           "timestamp": "2025-12-29T17:25:47.418Z",
+          "downloadDisplay": "2.1k",
+          "downloadApprox": 2100
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
           "downloadDisplay": "2.1k",
           "downloadApprox": 2100
         }
@@ -9457,6 +9472,11 @@
           "timestamp": "2025-12-29T17:25:47.418Z",
           "downloadDisplay": "469",
           "downloadApprox": 469
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
+          "downloadDisplay": "469",
+          "downloadApprox": 469
         }
       ],
       "logoUrl": "https://media.forgecdn.net/avatars/thumbnails/1016/323/256/256/638542286196529763_animated.gif"
@@ -11820,6 +11840,11 @@
         },
         {
           "timestamp": "2025-12-29T17:25:47.418Z",
+          "downloadDisplay": "2k",
+          "downloadApprox": 2000
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
           "downloadDisplay": "2k",
           "downloadApprox": 2000
         }
@@ -14187,6 +14212,11 @@
           "timestamp": "2025-12-29T17:25:47.418Z",
           "downloadDisplay": "1.6k",
           "downloadApprox": 1600
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
+          "downloadDisplay": "1.6k",
+          "downloadApprox": 1600
         }
       ],
       "logoUrl": "https://media.forgecdn.net/avatars/thumbnails/1003/100/256/256/638523538339963624_animated.gif"
@@ -16550,6 +16580,11 @@
         },
         {
           "timestamp": "2025-12-29T17:25:47.418Z",
+          "downloadDisplay": "16k",
+          "downloadApprox": 16000
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
           "downloadDisplay": "16k",
           "downloadApprox": 16000
         }
@@ -18917,6 +18952,11 @@
           "timestamp": "2025-12-29T17:25:47.418Z",
           "downloadDisplay": "10k",
           "downloadApprox": 10000
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
+          "downloadDisplay": "10k",
+          "downloadApprox": 10000
         }
       ],
       "logoUrl": "https://media.forgecdn.net/avatars/thumbnails/1019/809/256/256/638545558154538451.png"
@@ -21282,6 +21322,11 @@
           "timestamp": "2025-12-29T17:25:47.418Z",
           "downloadDisplay": "6.4k",
           "downloadApprox": 6400
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
+          "downloadDisplay": "6.4k",
+          "downloadApprox": 6400
         }
       ],
       "logoUrl": "https://media.forgecdn.net/avatars/thumbnails/571/660/256/256/637931992556609723.png"
@@ -23645,6 +23690,11 @@
         },
         {
           "timestamp": "2025-12-29T17:25:47.418Z",
+          "downloadDisplay": "74k",
+          "downloadApprox": 74000
+        },
+        {
+          "timestamp": "2025-12-29T18:39:59.560Z",
           "downloadDisplay": "74k",
           "downloadApprox": 74000
         }
