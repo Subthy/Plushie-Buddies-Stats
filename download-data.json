@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-16T17:11:12.520Z",
+  "lastUpdated": "2026-06-16T21:12:19.599Z",
   "projects": [
     {
       "id": 990265,
@@ -8,11 +8,6 @@
       "type": "Mod",
       "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/plushie-buddies",
       "history": [
-        {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "6M",
-          "downloadApprox": 6000000
-        },
         {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "6M",
@@ -2505,6 +2500,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "6.9M",
+          "downloadApprox": 6900000
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "6.9M",
           "downloadApprox": 6900000
         }
@@ -2519,11 +2519,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/modpacks/trash-panda-craft",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "4.3k",
-          "downloadApprox": 4300
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "4.3k",
           "downloadApprox": 4300
@@ -5015,6 +5010,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "4.5k",
+          "downloadApprox": 4500
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "4.5k",
           "downloadApprox": 4500
         }
@@ -5029,11 +5029,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/rpg-bosses",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "3.5k",
-          "downloadApprox": 3500
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "3.5k",
           "downloadApprox": 3500
@@ -7525,6 +7520,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "4.1k",
+          "downloadApprox": 4100
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "4.1k",
           "downloadApprox": 4100
         }
@@ -7539,11 +7539,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/cultivators-edge",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "771",
-          "downloadApprox": 771
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "772",
           "downloadApprox": 772
@@ -10035,6 +10030,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "805",
+          "downloadApprox": 805
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "805",
           "downloadApprox": 805
         }
@@ -10049,11 +10049,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/modpacks/pokeasub",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "2.2k",
-          "downloadApprox": 2200
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "2.2k",
           "downloadApprox": 2200
@@ -12545,6 +12540,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "2.3k",
+          "downloadApprox": 2300
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "2.3k",
           "downloadApprox": 2300
         }
@@ -12559,11 +12559,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/hammer-havoc",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "1.8k",
-          "downloadApprox": 1800
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "1.8k",
           "downloadApprox": 1800
@@ -15055,6 +15050,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "1.8k",
+          "downloadApprox": 1800
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "1.8k",
           "downloadApprox": 1800
         }
@@ -15069,11 +15069,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/modpacks/baercraft",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "16k",
-          "downloadApprox": 16000
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "16k",
           "downloadApprox": 16000
@@ -17565,6 +17560,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "16k",
+          "downloadApprox": 16000
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "16k",
           "downloadApprox": 16000
         }
@@ -17579,11 +17579,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/baers-additions",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "10k",
-          "downloadApprox": 10000
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "10k",
           "downloadApprox": 10000
@@ -20075,6 +20070,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "10k",
+          "downloadApprox": 10000
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "10k",
           "downloadApprox": 10000
         }
@@ -20089,11 +20089,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/texture-packs/baers-renditions",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "6.5k",
-          "downloadApprox": 6500
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "6.5k",
           "downloadApprox": 6500
@@ -22585,6 +22580,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "6.5k",
+          "downloadApprox": 6500
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "6.5k",
           "downloadApprox": 6500
         }
@@ -22599,11 +22599,6 @@
       "curseforgeUrl": "https://www.curseforge.com/minecraft/mc-mods/create-reclaimed-rocks",
       "history": [
         {
-          "timestamp": "2026-04-24T22:49:22.770Z",
-          "downloadDisplay": "85k",
-          "downloadApprox": 85000
-        },
-        {
           "timestamp": "2026-04-24T23:49:12.312Z",
           "downloadDisplay": "85k",
           "downloadApprox": 85000
@@ -25095,6 +25090,11 @@
         },
         {
           "timestamp": "2026-06-16T17:11:12.520Z",
+          "downloadDisplay": "90k",
+          "downloadApprox": 90000
+        },
+        {
+          "timestamp": "2026-06-16T21:12:19.599Z",
           "downloadDisplay": "90k",
           "downloadApprox": 90000
         }
